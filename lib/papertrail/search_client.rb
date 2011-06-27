@@ -22,7 +22,7 @@ module Papertrail
 
       @conn = Faraday::Connection.new(:url => 'https://papertrailapp.com', :ssl => ssl_options) do |builder|
         builder.adapter  Faraday.default_adapter
-        builder.response :yajl
+        builder.use Faraday::Response::Yajl
       end
       @conn.basic_auth(@username, @password)
 
