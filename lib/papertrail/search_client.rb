@@ -20,8 +20,7 @@ module Papertrail
       #end
 
       @conn = Faraday::Connection.new(:url => 'https://papertrailapp.com', :ssl => ssl_options) do |builder|
-        builder.adapter  Faraday.default_adapter
-        builder.request  :json
+        builder.adapter  :net_http
       end
       @conn.basic_auth(@username, @password)
 
@@ -34,10 +33,11 @@ module Papertrail
       response = @conn.get('/api/v1/events/search.json') do |r|
         r.params = params_for_query(q, since)
       end
-
+      
       if response.body
-        @max_id_seen[q] = response.body['max_id']
-        response.body['events']
+        response_json = ActiveSupport::JSON.decode(response.body)
+        @max_id_seen[q] = response_json['max_id']
+        response_json['events']
       end
     end
 
