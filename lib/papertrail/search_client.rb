@@ -19,9 +19,7 @@ module Papertrail
       #  ssl_options[:ca_file] = '/etc/ssl/certs/ca-certificates.crt'
       #end
 
-      @conn = Faraday::Connection.new(:url => 'https://papertrailapp.com', :ssl => ssl_options) do |builder|
-        builder.adapter  :net_http
-      end
+      @conn = Faraday::Connection.new(:url => 'https://papertrailapp.com', :ssl => ssl_options)
       @conn.basic_auth(@username, @password)
 
       @max_id_seen = {}
