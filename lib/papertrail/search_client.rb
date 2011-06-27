@@ -1,6 +1,5 @@
 require 'faraday'
 require 'time'
-require 'always_verify_ssl_certificates'
 
 module Papertrail
   class SearchClient
@@ -10,15 +9,15 @@ module Papertrail
       @username = username
       @password = password
 
-      ssl_options = { :verify => OpenSSL::SSL::VERIFY_PEER }
+      ssl_options = { :verify => OpenSSL::SSL::VERIFY_NONE }
 
       # Make Ubuntu OpenSSL work
       #
       # From: https://bugs.launchpad.net/ubuntu/+source/openssl/+bug/396818
       # "[OpenSSL] does not presume to select a set of CAs by default."
-      if File.file?('/etc/ssl/certs/ca-certificates.crt')
-        ssl_options[:ca_file] = '/etc/ssl/certs/ca-certificates.crt'
-      end
+      #if File.file?('/etc/ssl/certs/ca-certificates.crt')
+      #  ssl_options[:ca_file] = '/etc/ssl/certs/ca-certificates.crt'
+      #end
 
       @conn = Faraday::Connection.new(:url => 'https://papertrailapp.com', :ssl => ssl_options) do |builder|
         builder.adapter  Faraday.default_adapter
