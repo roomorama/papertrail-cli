@@ -15,11 +15,11 @@ module Papertrail
       #
       # From: https://bugs.launchpad.net/ubuntu/+source/openssl/+bug/396818
       # "[OpenSSL] does not presume to select a set of CAs by default."
-      if File.file?('/etc/ssl/certs/ca-certificates.crt')
-        ssl_options[:ca_file] = '/etc/ssl/certs/ca-certificates.crt'
-      end
+      #if File.file?('/etc/ssl/certs/ca-certificates.crt')
+      #  ssl_options[:ca_file] = '/etc/ssl/certs/ca-certificates.crt'
+      #end
 
-      @conn = Net::HTTP.new("ssltest7.bbtest.net", 443)
+      @conn = Net::HTTP.new("papertrailapp.com", 443)
       @conn.use_ssl = true
       @conn.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
