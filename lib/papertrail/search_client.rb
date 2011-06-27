@@ -9,8 +9,6 @@ module Papertrail
       @username = username
       @password = password
 
-      ssl_options = { :verify => OpenSSL::SSL::VERIFY_NONE }
-
       # Make Ubuntu OpenSSL work
       #
       # From: https://bugs.launchpad.net/ubuntu/+source/openssl/+bug/396818
@@ -19,7 +17,7 @@ module Papertrail
       #  ssl_options[:ca_file] = '/etc/ssl/certs/ca-certificates.crt'
       #end
 
-      @conn = Faraday::Connection.new(:url => 'https://papertrailapp.com', :ssl => ssl_options)
+      @conn = Faraday::Connection.new(:url => 'https://papertrailapp.com')
       @conn.basic_auth(@username, @password)
 
       @max_id_seen = {}
