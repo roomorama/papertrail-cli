@@ -21,11 +21,10 @@ module Papertrail
       end
 
       @conn = Faraday::Connection.new(:url => 'https://papertrailapp.com', :ssl => ssl_options) do |builder|
-        builder.basic_auth(@username, @password)
-
         builder.adapter  Faraday.default_adapter
         builder.response :yajl
       end
+      @conn.basic_auth(@username, @password)
 
       @max_id_seen = {}
     end
