@@ -23,8 +23,6 @@ module Papertrail
       @conn.use_ssl = true
       @conn.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
-      @conn.basic_auth(@username, @password)
-
       @max_id_seen = {}
     end
 
@@ -34,6 +32,7 @@ module Papertrail
       request = Net::HTTP::Get.new("/api/v1/events/search.json")
       request.set_form_data(params_for_query(q, since))
       request = Net::HTTP::Get.new("/api/v1/events/search.json?" + request.body )
+      request.basic_auth(@username, @password)
       response = @conn.request(request)
       
       if response.body
