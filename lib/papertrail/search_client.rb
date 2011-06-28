@@ -1,4 +1,3 @@
-require 'always_verify_ssl_certificates'
 require 'time'
 require "net/https"
 require "uri"
